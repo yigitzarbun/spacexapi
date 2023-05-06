@@ -49,14 +49,14 @@ function Past(props) {
         <thead>
           <tr>
             <th
-              style={{ width: "15%" }}
+              style={{ width: "5%" }}
               className="cursor-pointer"
               onClick={() => {
                 handleSort("flight_number");
               }}
             >
               <div className="flex">
-                <p> Flight #</p>
+                <p> #</p>
                 <img
                   src={
                     sort === "flight_number"
@@ -128,8 +128,26 @@ function Past(props) {
                 />
               </div>
             </th>
-            <th style={{ width: "20%" }}>Crew</th>
-            <th style={{ width: "30%" }}>Details</th>
+            <th
+              style={{ width: "20%" }}
+              onClick={() => {
+                handleSort("crew");
+              }}
+            >
+              <div className="flex">
+                <p> Crew</p>
+                <img
+                  src={
+                    sort === "crew"
+                      ? "/images/down-arrow.png"
+                      : "/images/up-arrow.png"
+                  }
+                  alt="sort-direction"
+                  className="w-4 h-4 ml-2"
+                />
+              </div>
+            </th>
+            <th style={{ width: "40%" }}>Details</th>
             <th style={{ width: "10%", height: "0" }}>Image</th>
           </tr>
         </thead>
@@ -140,6 +158,8 @@ function Past(props) {
                 return a.flight_number - b.flight_number;
               } else if (sort === "flight_number") {
                 return b[sort] - a[sort];
+              } else if (sort === "crew") {
+                return b[sort].length - a[sort].length;
               } else if (sort === "date_utc") {
                 return new Date(b[sort]) - new Date(a[sort]);
               } else if (sort === "name") {
