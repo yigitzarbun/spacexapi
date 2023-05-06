@@ -3,9 +3,8 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 
 function Latest(props) {
-  const { launchEndpoint, crewEndpoint } = props;
+  const { launchEndpoint, crew } = props;
   const [latest, setLatest] = useState([]);
-  const [crew, setCrew] = useState([]);
   const [carouselIndex, setCarouselIndex] = useState(0);
 
   let resultJsx = "";
@@ -36,21 +35,28 @@ function Latest(props) {
         wikipedia: member.wikipedia,
         agency: member.agency,
         role: latest.crew[i]["role"],
+        id: member.id,
       });
     }
     resultJsx = (
       <div className="flex justify-between items-start">
         <div className="bg-slate-950 p-8 mt-8 rounded-md shadow-md w-1/2">
-          <h2 className="font-bold text-blue-300 text-3xl text-center">
-            {latest.name}
-          </h2>
-          <p>{`${day}-${month}-${year}`}</p>
+          <h2>Name: {latest.name}</h2>
+          <p>Date: {`${day}-${month}-${year}`}</p>
+          <p>Flight no: {latest.flight_number}</p>
+          <p>{latest.success === true ? "Successful" : "Failure"}</p>
           {latest.details && <p>Details: {latest.details}</p>}
+          {latest.links.wikipedia && (
+            <a href={latest.links.wikipedia} target="_blank">
+              <button>Read More</button>
+            </a>
+          )}
+
           {crewMembers && crewMembers.length > 0 && (
             <div className="bg-slate-900 rounded-md p-4 mt-8">
               <div className="flex flex-wrap gap-y-12 text-center">
                 {crewMembers.map((c) => (
-                  <div className="w-1/2">
+                  <div key={c.id} className="w-1/2">
                     <img
                       src={c.image}
                       alt="crew-member-image"
@@ -94,10 +100,6 @@ function Latest(props) {
     axios
       .get(launchEndpoint + "latest")
       .then((res) => setLatest(res.data))
-      .catch((err) => console.log(err));
-    axios
-      .get(crewEndpoint)
-      .then((res) => setCrew(res.data))
       .catch((err) => console.log(err));
   }, []);
 
