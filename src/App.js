@@ -33,7 +33,7 @@ function App() {
           />
           <Route
             path="/future"
-            element={<Future launchEndpoint={launchEndpoint} />}
+            element={<Future launchEndpoint={launchEndpoint} crew={crew} />}
           />
           <Route path="/:launch_id" element={<LaunchPhotos />} />
         </Routes>

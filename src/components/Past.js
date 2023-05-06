@@ -8,6 +8,7 @@ function Past(props) {
   const [past, setPast] = useState([]);
   const [sort, setSort] = useState(null);
   const [search, setSearch] = useState("");
+
   const handleSearch = (e) => {
     setSearch(e.target.value);
   };
@@ -286,12 +287,15 @@ function Past(props) {
         value={search}
         onChange={handleSearch}
       />
-      <button
-        onClick={() => setSearch("")}
-        className="font-bold border-2 border-red-400 rounded-md ml-2 p-2 hover:bg-gradient-to-r from-red-500 to-purple-700 hover:border-slate-950"
-      >
-        Clear
-      </button>
+      {search && (
+        <button
+          onClick={() => setSearch("")}
+          className="font-bold border-2 border-red-400 rounded-md ml-2 p-2 hover:bg-gradient-to-r from-red-500 to-purple-700 hover:border-slate-950"
+        >
+          Clear
+        </button>
+      )}
+
       <br />
       <Link className="italic text-sm hover:text-blue-400 flex-inline">
         Search in all launches
