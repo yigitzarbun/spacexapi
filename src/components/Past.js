@@ -7,6 +7,10 @@ function Past(props) {
   const { launchEndpoint, crew } = props;
   const [past, setPast] = useState([]);
   const [sort, setSort] = useState(null);
+  const [search, setSearch] = useState("");
+  const handleSearch = (e) => {
+    setSearch(e.target.value);
+  };
   const handleSort = (value) => {
     if (sort === null) {
       setSort(value);
@@ -50,13 +54,12 @@ function Past(props) {
           <tr>
             <th
               style={{ width: "5%" }}
-              className="cursor-pointer"
               onClick={() => {
                 handleSort("flight_number");
               }}
             >
               <div className="flex">
-                <p> #</p>
+                <p className=" hover:text-blue-400 cursor-pointer"> #</p>
                 <img
                   src={
                     sort === "flight_number"
@@ -70,13 +73,12 @@ function Past(props) {
             </th>
             <th
               style={{ width: "10%" }}
-              className="cursor-pointer"
               onClick={() => {
                 handleSort("name");
               }}
             >
               <div className="flex">
-                <p> Name</p>
+                <p className=" hover:text-blue-400 cursor-pointer"> Name</p>
                 <img
                   src={
                     sort === "name"
@@ -90,13 +92,12 @@ function Past(props) {
             </th>
             <th
               style={{ width: "10%" }}
-              className="cursor-pointer"
               onClick={() => {
                 handleSort("date_utc");
               }}
             >
               <div className="flex">
-                <p> Date</p>
+                <p className=" hover:text-blue-400 cursor-pointer"> Date</p>
                 <img
                   src={
                     sort === "date_utc"
@@ -110,13 +111,12 @@ function Past(props) {
             </th>
             <th
               style={{ width: "5%" }}
-              className="cursor-pointer"
               onClick={() => {
                 handleSort("success");
               }}
             >
               <div className="flex">
-                <p> Success</p>
+                <p className=" hover:text-blue-400 cursor-pointer"> Success</p>
                 <img
                   src={
                     sort === "success"
@@ -135,7 +135,7 @@ function Past(props) {
               }}
             >
               <div className="flex">
-                <p> Crew</p>
+                <p className=" hover:text-blue-400 cursor-pointer"> Crew</p>
                 <img
                   src={
                     sort === "crew"
@@ -143,7 +143,7 @@ function Past(props) {
                       : "/images/up-arrow.png"
                   }
                   alt="sort-direction"
-                  className="w-4 h-4 ml-2"
+                  className="w-4 h-4 ml-2 cursor-pointer"
                 />
               </div>
             </th>
@@ -153,6 +153,25 @@ function Past(props) {
         </thead>
         <tbody>
           {past
+            .filter((l) => {
+              if (
+                (l.name === undefined || l.name === "") &&
+                (l.details === undefined || l.details === "")
+              ) {
+                return false;
+              } else if (
+                (l.name &&
+                  l.name.toLowerCase().includes(search.toLocaleLowerCase())) ||
+                (l.details &&
+                  l.details
+                    .toLocaleLowerCase()
+                    .includes(search.toLocaleLowerCase()))
+              ) {
+                return l;
+              } else {
+                return false;
+              }
+            })
             .sort(function (a, b) {
               if (sort === null) {
                 return a.flight_number - b.flight_number;
@@ -258,7 +277,56 @@ function Past(props) {
       .then((res) => setPast(res.data))
       .catch((err) => console.log(err));
   }, []);
-  return <div>{resultJsx}</div>;
+  return (
+    <div>
+      <input
+        type="text"
+        placeholder="Search by name or detail in past launches.."
+        className="w-1/3 rounded-lg p-2 bg-slate-200 text-black border-2 hover:border-blue-500"
+        value={search}
+        onChange={handleSearch}
+      />
+      <button
+        onClick={() => setSearch("")}
+        className="font-bold border-2 border-red-400 rounded-md ml-2 p-2 hover:bg-gradient-to-r from-red-500 to-purple-700 hover:border-slate-950"
+      >
+        Clear
+      </button>
+      <br />
+      <Link className="italic text-sm hover:text-blue-400 flex-inline">
+        Search in all launches
+      </Link>
+      {past.filter((l) => {
+        if (
+          (l.name === undefined || l.name === "") &&
+          (l.details === undefined || l.details === "")
+        ) {
+          return false;
+        } else if (
+          (l.name &&
+            l.name.toLowerCase().includes(search.toLocaleLowerCase())) ||
+          (l.details &&
+            l.details.toLocaleLowerCase().includes(search.toLocaleLowerCase()))
+        ) {
+          return l;
+        } else {
+          return false;
+        }
+      }).length === 0 ? (
+        <div className="text-center">
+          <h3 className="text-xl font-bold mt-4">
+            No results matching your criteria
+          </h3>
+          <p className="mt-2">
+            Try searcing for something else or clear search to see launch
+            results.
+          </p>
+        </div>
+      ) : (
+        resultJsx
+      )}
+    </div>
+  );
 }
 
 export default Past;
