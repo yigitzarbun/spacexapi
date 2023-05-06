@@ -2,6 +2,7 @@ import Header from "./components/Header";
 import Latest from "./components/Latest";
 import Past from "./components/Past";
 import Future from "./components/Future";
+import LaunchPhotos from "./components/LaunchPhotos";
 import { Routes, Route } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
@@ -34,6 +35,7 @@ function App() {
             path="/future"
             element={<Future launchEndpoint={launchEndpoint} />}
           />
+          <Route path="/:launch_id" element={<LaunchPhotos />} />
         </Routes>
       </main>
     </div>

@@ -17,12 +17,13 @@ code {
 th {
   font-size: 1.2rem;
   color: lightblue;
+  background-color: black;
 }
 
 th,
 td {
   border-bottom: 1px solid lightblue;
-  padding: 0.5rem;
+  padding: 0.8rem;
 }
 
 @tailwind base;
