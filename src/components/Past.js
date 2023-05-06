@@ -35,25 +35,29 @@ function Past(props) {
             wikipedia: member.wikipedia,
             agency: member.agency,
             role: past[p]["crew"][k]["role"],
-            id: member.id,
+            member_id: member.id,
+            launch_id: past[p]["id"],
           });
         }
       }
     }
     resultJsx = (
-      <table>
+      <table className="text-left bg-slate-800 rounded-md p-4 mt-8">
         <thead>
           <tr>
-            <th>Name</th>
-            <th>Date</th>
-            <th>Details</th>
-            <th>Image</th>
-            <th>Crew</th>
+            <th style={{ width: "10%" }}>Flight #</th>
+            <th style={{ width: "10%" }}>Name</th>
+            <th style={{ width: "10%" }}>Date</th>
+            <th style={{ width: "10%" }}>Success</th>
+            <th style={{ width: "20%" }}>Crew</th>
+            <th style={{ width: "30%" }}>Details</th>
+            <th style={{ width: "10%", height: "0" }}>Image</th>
           </tr>
         </thead>
         <tbody>
           {past.map((launch) => (
-            <tr>
+            <tr key={launch.flight_number}>
+              <td>{launch.flight_number}</td>
               <td>{launch.name}</td>
               <td>
                 {new Date(launch.date_utc).getUTCDate() +
@@ -62,10 +66,35 @@ function Past(props) {
                   "-" +
                   new Date(launch.date_utc).getUTCFullYear()}
               </td>
+              <td
+                className={
+                  launch.success === true ? "text-green-400" : "text-red-400"
+                }
+              >
+                {launch.success === true ? "Successful" : "Failure"}
+              </td>
+              <td>
+                {launch.crew.length === 0 ? (
+                  "0"
+                ) : (
+                  <ul>
+                    {crewMembers
+                      .filter((c) => c.launch_id === launch.id)
+                      .map((m) => (
+                        <li>
+                          <p className="text-blue-400 text-sm italic mr-2">
+                            {m.role}:
+                          </p>
+                          <p> {m.name}</p>
+                        </li>
+                      ))}
+                  </ul>
+                )}
+              </td>
               <td>
                 {launch.details ? launch.details : "No details available"}
               </td>
-              <td>
+              <td style={{ height: "100px" }}>
                 <img
                   src={
                     launch.links.flickr.original[0]
@@ -77,10 +106,14 @@ function Past(props) {
                       : "/images/spacex.jpeg"
                   }
                   alt="launch-image"
-                  className="rounded-lg h-24"
+                  style={{
+                    width: "100%",
+                    height: "100%",
+                    objectFit: "cover",
+                    borderRadius: "25px",
+                  }}
                 />
               </td>
-              <td>{launch.crew.length}</td>
             </tr>
           ))}
         </tbody>

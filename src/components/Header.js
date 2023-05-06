@@ -14,7 +14,7 @@ function Header() {
           className={({ isActive }) =>
             isActive
               ? "active-link"
-              : "p-2 font-bold cursor-pointer hover:bg-gradient-to-r from-sky-500 to-indigo-500 hover:rounded-md hover:text-white"
+              : "text-xl p-2 font-bold cursor-pointer hover:bg-gradient-to-r from-sky-500 to-indigo-500 hover:rounded-md hover:text-white"
           }
         >
           Latest
@@ -24,7 +24,7 @@ function Header() {
           className={({ isActive }) =>
             isActive
               ? "active-link"
-              : "p-2 font-bold cursor-pointer hover:bg-gradient-to-r from-sky-500 to-indigo-500 hover:rounded-md hover:text-white"
+              : "text-xl p-2 font-bold cursor-pointer hover:bg-gradient-to-r from-sky-500 to-indigo-500 hover:rounded-md hover:text-white"
           }
         >
           Past
@@ -34,7 +34,7 @@ function Header() {
           className={({ isActive }) =>
             isActive
               ? "active-link"
-              : "p-2 font-bold cursor-pointer hover:bg-gradient-to-r from-sky-500 to-indigo-500 hover:rounded-md hover:text-white"
+              : "text-xl p-2 font-bold cursor-pointer hover:bg-gradient-to-r from-sky-500 to-indigo-500 hover:rounded-md hover:text-white"
           }
         >
           Future

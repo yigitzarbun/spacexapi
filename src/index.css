@@ -14,10 +14,21 @@ code {
     monospace;
 }
 
+th {
+  font-size: 1.2rem;
+  color: lightblue;
+}
+
+th,
+td {
+  border-bottom: 1px solid lightblue;
+  padding: 0.5rem;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 .active-link {
-  @apply p-2 font-bold cursor-pointer text-blue-400;
+  @apply p-2 text-xl font-bold cursor-pointer text-blue-400;
 }
