@@ -33,3 +33,7 @@ td {
 .active-link {
   @apply p-2 text-xl font-bold cursor-pointer text-blue-400;
 }
+
+.active-link-searchAll {
+  @apply p-2 text-sm font-bold cursor-pointer text-blue-400;
+}

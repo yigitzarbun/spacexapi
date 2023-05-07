@@ -4,7 +4,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 function LaunchPhotos() {
   const location = useLocation();
   const navigate = useNavigate();
-  const propsData = location.state.launch;
+  const propsData = location.state ? location.state.launch : null;
   const [carouselIndex, setCarouselIndex] = useState(0);
   const handleNextIndex = () => {
     setCarouselIndex(
@@ -17,14 +17,15 @@ function LaunchPhotos() {
         propsData.links.flickr.original.length
     );
   };
-
   const handleBack = () => {
     navigate(-1);
   };
   return (
     <div>
-      <h2 className="text-center text-2xl font-bold">{propsData.name}</h2>
-      {propsData.links.flickr.original.length > 0 ? (
+      <h2 className="text-center text-2xl font-bold">
+        {propsData && propsData.name}
+      </h2>
+      {propsData && propsData.links.flickr.original.length > 0 ? (
         <div className="w-1/2 mx-auto">
           <div className="flex justify-between mb-4">
             <button
@@ -41,7 +42,7 @@ function LaunchPhotos() {
             </button>
           </div>
           <img
-            src={propsData.links.flickr.original[carouselIndex]}
+            src={propsData && propsData.links.flickr.original[carouselIndex]}
             alt="launch-image"
             className="rounded-md"
           />
@@ -51,7 +52,7 @@ function LaunchPhotos() {
           <p>
             No images available for launch
             <span className="text-blue-400 italic font-bold ml-2">
-              {propsData.name}
+              {propsData && propsData.name}
             </span>
           </p>
           <button

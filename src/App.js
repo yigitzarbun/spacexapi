@@ -3,6 +3,7 @@ import Latest from "./components/Latest";
 import Past from "./components/Past";
 import Future from "./components/Future";
 import LaunchPhotos from "./components/LaunchPhotos";
+import All from "./components/All";
 import { Routes, Route } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
@@ -10,7 +11,6 @@ import axios from "axios";
 function App() {
   const launchEndpoint = "https://api.spacexdata.com/v5/launches/";
   const [crew, setCrew] = useState([]);
-
   useEffect(() => {
     axios
       .get("https://api.spacexdata.com/v4/crew")
@@ -36,6 +36,10 @@ function App() {
             element={<Future launchEndpoint={launchEndpoint} crew={crew} />}
           />
           <Route path="/:launch_id" element={<LaunchPhotos />} />
+          <Route
+            path="/all"
+            element={<All launchEndpoint={launchEndpoint} crew={crew} />}
+          />
         </Routes>
       </main>
     </div>

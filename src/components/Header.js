@@ -1,6 +1,7 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
-function Header() {
+import { Link, NavLink } from "react-router-dom";
+function Header(props) {
+  const { searchBar, handleSearchBar } = props;
   return (
     <div className="flex justify-between items-center">
       <NavLink to="/">
@@ -8,38 +9,50 @@ function Header() {
           SpaceX Launches
         </h1>
       </NavLink>
-      <nav>
+      <div>
+        <nav className="flex items-center justify-between">
+          <NavLink
+            to="/"
+            className={({ isActive }) =>
+              isActive
+                ? "active-link"
+                : "text-xl p-2 font-bold cursor-pointer hover:bg-gradient-to-r from-sky-500 to-indigo-500 hover:rounded-md hover:text-white"
+            }
+          >
+            Latest
+          </NavLink>
+          <NavLink
+            to="/past"
+            className={({ isActive }) =>
+              isActive
+                ? "active-link"
+                : "text-xl p-2 font-bold cursor-pointer hover:bg-gradient-to-r from-sky-500 to-indigo-500 hover:rounded-md hover:text-white"
+            }
+          >
+            Past
+          </NavLink>
+          <NavLink
+            to="/future"
+            className={({ isActive }) =>
+              isActive
+                ? "active-link"
+                : "text-xl p-2 font-bold cursor-pointer hover:bg-gradient-to-r from-sky-500 to-indigo-500 hover:rounded-md hover:text-white"
+            }
+          >
+            Future
+          </NavLink>
+        </nav>
         <NavLink
-          to="/"
+          to="/all"
           className={({ isActive }) =>
             isActive
-              ? "active-link"
-              : "text-xl p-2 font-bold cursor-pointer hover:bg-gradient-to-r from-sky-500 to-indigo-500 hover:rounded-md hover:text-white"
+              ? "active-link-searchAll"
+              : "italic text-sm hover:text-blue-400 flex-inline p-2"
           }
         >
-          Latest
+          Search in all launches
         </NavLink>
-        <NavLink
-          to="/past"
-          className={({ isActive }) =>
-            isActive
-              ? "active-link"
-              : "text-xl p-2 font-bold cursor-pointer hover:bg-gradient-to-r from-sky-500 to-indigo-500 hover:rounded-md hover:text-white"
-          }
-        >
-          Past
-        </NavLink>
-        <NavLink
-          to="/future"
-          className={({ isActive }) =>
-            isActive
-              ? "active-link"
-              : "text-xl p-2 font-bold cursor-pointer hover:bg-gradient-to-r from-sky-500 to-indigo-500 hover:rounded-md hover:text-white"
-          }
-        >
-          Future
-        </NavLink>
-      </nav>
+      </div>
     </div>
   );
 }

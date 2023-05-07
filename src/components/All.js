@@ -3,12 +3,11 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 
-function Past(props) {
+function All(props) {
   const { launchEndpoint, crew } = props;
-  const [past, setPast] = useState([]);
+  const [all, setAll] = useState([]);
   const [sort, setSort] = useState(null);
   const [search, setSearch] = useState("");
-
   const handleSearch = (e) => {
     setSearch(e.target.value);
   };
@@ -21,19 +20,19 @@ function Past(props) {
   };
   let resultJsx = "";
   let crewMembers = [];
-  if (past === null || crew === null) {
+  if (all === null || crew === null) {
     resultJsx = "Loading..";
-  } else if (past.length === 0) {
+  } else if (all.length === 0) {
     resultJsx = (
       <div>
         <h2>No available launch information</h2>
       </div>
     );
-  } else if (past && Array.isArray(past) && Array.isArray(crew) && crew) {
-    for (let p = 0; p < past.length; p++) {
-      if (past[p]["crew"].length > 0) {
-        for (let k = 0; k < past[p]["crew"].length; k++) {
-          let member = crew.find((m) => m.id === past[p]["crew"][k]["crew"]);
+  } else if (all && Array.isArray(all) && Array.isArray(crew) && crew) {
+    for (let p = 0; p < all.length; p++) {
+      if (all[p]["crew"].length > 0) {
+        for (let k = 0; k < all[p]["crew"].length; k++) {
+          let member = crew.find((m) => m.id === all[p]["crew"][k]["crew"]);
           if (member != null && member != undefined) {
             crewMembers.push({
               name: member.name,
@@ -41,9 +40,9 @@ function Past(props) {
               launches: member.launches.length,
               wikipedia: member.wikipedia,
               agency: member.agency,
-              role: past[p]["crew"][k]["role"],
+              role: all[p]["crew"][k]["role"],
               member_id: member.id,
-              launch_id: past[p]["id"],
+              launch_id: all[p]["id"],
             });
           }
         }
@@ -55,7 +54,7 @@ function Past(props) {
           Past Launches:{" "}
           <span className="text-blue-400">
             {
-              past.filter((l) => {
+              all.filter((l) => {
                 if (
                   (l.name === undefined || l.name === "") &&
                   (l.details === undefined || l.details === "")
@@ -80,7 +79,7 @@ function Past(props) {
           </span>
           results
         </h2>
-        <table className="text-left bg-slate-900 mt-4">
+        <table className="text-left bg-slate-900 mt-8">
           <thead>
             <tr>
               <th
@@ -186,7 +185,7 @@ function Past(props) {
             </tr>
           </thead>
           <tbody>
-            {past
+            {all
               .filter((l) => {
                 if (
                   (l.name === undefined || l.name === "") &&
@@ -312,18 +311,18 @@ function Past(props) {
   }
   useEffect(() => {
     axios
-      .get(launchEndpoint + "past")
-      .then((res) => setPast(res.data))
+      .get(launchEndpoint)
+      .then((res) => setAll(res.data))
       .catch((err) => console.log(err));
   }, []);
   return (
     <div>
       <input
         type="text"
-        placeholder="Search by name or detail in past launches.."
         className="w-1/3 rounded-lg p-2 bg-slate-200 text-black border-2 hover:border-blue-500"
-        value={search}
+        placeholder="Search in all launches"
         onChange={handleSearch}
+        value={search}
       />
       {search && (
         <button
@@ -333,15 +332,8 @@ function Past(props) {
           Clear
         </button>
       )}
-
       <br />
-      <Link
-        to="/all"
-        className="italic text-sm hover:text-blue-400 flex-inline"
-      >
-        Search in all launches
-      </Link>
-      {past.filter((l) => {
+      {all.filter((l) => {
         if (
           (l.name === undefined || l.name === "") &&
           (l.details === undefined || l.details === "")
@@ -374,4 +366,4 @@ function Past(props) {
   );
 }
 
-export default Past;
+export default All;

@@ -1,7 +1,7 @@
 import React from "react";
 import { useEffect, useState } from "react";
 import axios from "axios";
-
+// make this into a table
 function Latest(props) {
   const { launchEndpoint, crew } = props;
   const [latest, setLatest] = useState([]);
@@ -39,18 +39,30 @@ function Latest(props) {
       });
     }
     resultJsx = (
-      <div className="flex justify-between items-start">
+      <div className="flex justify-between items-center">
         <div className="bg-slate-950 p-8 mt-8 rounded-md shadow-md w-1/2">
-          <h2>Name: {latest.name}</h2>
-          <p>Date: {`${day}-${month}-${year}`}</p>
-          <p>Flight no: {latest.flight_number}</p>
-          <p>{latest.success === true ? "Successful" : "Failure"}</p>
-          {latest.details && <p>Details: {latest.details}</p>}
-          {latest.links.wikipedia && (
-            <a href={latest.links.wikipedia} target="_blank">
-              <button>Read More</button>
-            </a>
-          )}
+          <table className="text-left bg-slate-950 mt-8 w-full">
+            <thead>
+              <tr>
+                <th style={{ width: "10%" }}>#</th>
+                <th style={{ width: "25%" }}>Name</th>
+                <th style={{ width: "20%" }}>Date</th>
+                <th style={{ width: "40%" }}>Details</th>
+                <th style={{ width: "5%" }}>Crew</th>
+              </tr>
+            </thead>
+            <tbody className="bg-slate-900">
+              <tr>
+                <td>{latest.flight_number}</td>
+                <td>{latest.name}</td>
+                <td>{`${day}-${month}-${year}`}</td>
+                <td>
+                  {latest.details ? latest.details : "No details available"}
+                </td>
+                <td>{latest.crew.length}</td>
+              </tr>
+            </tbody>
+          </table>
 
           {crewMembers && crewMembers.length > 0 && (
             <div className="bg-slate-900 rounded-md p-4 mt-8">

@@ -56,226 +56,264 @@ function Future(props) {
       }
     }
     resultJsx = (
-      <table className="text-left bg-slate-900 mt-8">
-        <thead>
-          <tr>
-            <th
-              style={{ width: "5%" }}
-              onClick={() => {
-                handleSort("flight_number");
-              }}
-            >
-              <div className="flex">
-                <p className=" hover:text-blue-400 cursor-pointer"> #</p>
-                <img
-                  src={
-                    sort === "flight_number"
-                      ? "/images/down-arrow.png"
-                      : "/images/up-arrow.png"
-                  }
-                  alt="sort-direction"
-                  className="w-4 h-4 ml-2"
-                />
-              </div>
-            </th>
-            <th
-              style={{ width: "10%" }}
-              onClick={() => {
-                handleSort("name");
-              }}
-            >
-              <div className="flex">
-                <p className=" hover:text-blue-400 cursor-pointer"> Name</p>
-                <img
-                  src={
-                    sort === "name"
-                      ? "/images/down-arrow.png"
-                      : "/images/up-arrow.png"
-                  }
-                  alt="sort-direction"
-                  className="w-4 h-4 ml-2"
-                />
-              </div>
-            </th>
-            <th
-              style={{ width: "10%" }}
-              onClick={() => {
-                handleSort("date_utc");
-              }}
-            >
-              <div className="flex">
-                <p className=" hover:text-blue-400 cursor-pointer"> Date</p>
-                <img
-                  src={
-                    sort === "date_utc"
-                      ? "/images/down-arrow.png"
-                      : "/images/up-arrow.png"
-                  }
-                  alt="sort-direction"
-                  className="w-4 h-4 ml-2"
-                />
-              </div>
-            </th>
-            <th
-              style={{ width: "5%" }}
-              onClick={() => {
-                handleSort("success");
-              }}
-            >
-              <div className="flex">
-                <p className=" hover:text-blue-400 cursor-pointer"> Success</p>
-                <img
-                  src={
-                    sort === "success"
-                      ? "/images/down-arrow.png"
-                      : "/images/up-arrow.png"
-                  }
-                  alt="sort-direction"
-                  className="w-4 h-4 ml-2"
-                />
-              </div>
-            </th>
-            <th
-              style={{ width: "20%" }}
-              onClick={() => {
-                handleSort("crew");
-              }}
-            >
-              <div className="flex">
-                <p className=" hover:text-blue-400 cursor-pointer"> Crew</p>
-                <img
-                  src={
-                    sort === "crew"
-                      ? "/images/down-arrow.png"
-                      : "/images/up-arrow.png"
-                  }
-                  alt="sort-direction"
-                  className="w-4 h-4 ml-2 cursor-pointer"
-                />
-              </div>
-            </th>
-            <th style={{ width: "40%" }}>Details</th>
-            <th style={{ width: "10%", height: "0" }}>Image</th>
-          </tr>
-        </thead>
-        <tbody>
-          {upcoming
-            .filter((l) => {
-              if (
-                (l.name === undefined || l.name === "") &&
-                (l.details === undefined || l.details === "")
-              ) {
-                return false;
-              } else if (
-                (l.name &&
-                  l.name.toLowerCase().includes(search.toLocaleLowerCase())) ||
-                (l.details &&
-                  l.details
-                    .toLocaleLowerCase()
-                    .includes(search.toLocaleLowerCase()))
-              ) {
-                return l;
-              } else {
-                return false;
-              }
-            })
-            .sort(function (a, b) {
-              if (sort === null) {
-                return a.flight_number - b.flight_number;
-              } else if (sort === "flight_number") {
-                return b[sort] - a[sort];
-              } else if (sort === "crew") {
-                return b[sort].length - a[sort].length;
-              } else if (sort === "date_utc") {
-                return new Date(b[sort]) - new Date(a[sort]);
-              } else if (sort === "name") {
-                let x = a.name.toLowerCase();
-                let y = b.name.toLowerCase();
-                if (x < y) {
-                  return -1;
+      <>
+        <h2 className="font-bold text-xl text-slate-400 mt-4">
+          Past Launches:{" "}
+          <span className="text-blue-400">
+            {
+              upcoming.filter((l) => {
+                if (
+                  (l.name === undefined || l.name === "") &&
+                  (l.details === undefined || l.details === "")
+                ) {
+                  return false;
+                } else if (
+                  (l.name &&
+                    l.name
+                      .toLowerCase()
+                      .includes(search.toLocaleLowerCase())) ||
+                  (l.details &&
+                    l.details
+                      .toLocaleLowerCase()
+                      .includes(search.toLocaleLowerCase()))
+                ) {
+                  return l;
+                } else {
+                  return false;
                 }
-                if (x > y) {
-                  return 1;
-                }
-                return 0;
-              } else if (sort === "success") {
-                let x = a.success;
-                let y = b.success;
-                if (x < y) {
-                  return -1;
-                }
-                if (x > y) {
-                  return 1;
-                }
-                return 0;
-              }
-            })
-            .map((launch) => (
-              <tr key={launch.id}>
-                <td>{launch.flight_number}</td>
-                <td>{launch.name}</td>
-                <td>
-                  {new Date(launch.date_utc).getUTCDate() +
-                    "-" +
-                    new Date(launch.date_utc).getUTCMonth() +
-                    "-" +
-                    new Date(launch.date_utc).getUTCFullYear()}
-                </td>
-                <td
-                  className={
-                    launch.success === true ? "text-green-400" : "text-red-400"
-                  }
-                >
-                  {launch.success === true ? "Successful" : "Failure"}
-                </td>
-                <td>
-                  {launch.crew.length === 0 ? (
-                    "0"
-                  ) : (
-                    <ul>
-                      {crewMembers
-                        .filter((c) => c.launch_id === launch.id)
-                        .map((m) => (
-                          <li key={m.member_id}>
-                            <p className="text-blue-400 text-sm italic mr-2">
-                              {m.role}:
-                            </p>
-                            <p> {m.name}</p>
-                          </li>
-                        ))}
-                    </ul>
-                  )}
-                </td>
-                <td>
-                  {launch.details ? launch.details : "No details available"}
-                </td>
-                <td style={{ height: "100px" }}>
-                  <Link to={`/${launch.id}`} state={{ launch: launch }}>
+              }).length
+            }{" "}
+          </span>
+          results
+        </h2>
+        <table className="text-left bg-slate-900 mt-8">
+          <thead>
+            <tr>
+              <th
+                style={{ width: "5%" }}
+                onClick={() => {
+                  handleSort("flight_number");
+                }}
+              >
+                <div className="flex">
+                  <p className=" hover:text-blue-400 cursor-pointer"> #</p>
+                  <img
+                    src={
+                      sort === "flight_number"
+                        ? "/images/down-arrow.png"
+                        : "/images/up-arrow.png"
+                    }
+                    alt="sort-direction"
+                    className="w-4 h-4 ml-2"
+                  />
+                </div>
+              </th>
+              <th
+                style={{ width: "10%" }}
+                onClick={() => {
+                  handleSort("name");
+                }}
+              >
+                <div className="flex">
+                  <p className=" hover:text-blue-400 cursor-pointer"> Name</p>
+                  <img
+                    src={
+                      sort === "name"
+                        ? "/images/down-arrow.png"
+                        : "/images/up-arrow.png"
+                    }
+                    alt="sort-direction"
+                    className="w-4 h-4 ml-2"
+                  />
+                </div>
+              </th>
+              <th
+                style={{ width: "10%" }}
+                onClick={() => {
+                  handleSort("date_utc");
+                }}
+              >
+                <div className="flex">
+                  <p className=" hover:text-blue-400 cursor-pointer"> Date</p>
+                  <img
+                    src={
+                      sort === "date_utc"
+                        ? "/images/down-arrow.png"
+                        : "/images/up-arrow.png"
+                    }
+                    alt="sort-direction"
+                    className="w-4 h-4 ml-2"
+                  />
+                </div>
+              </th>
+              <th
+                style={{ width: "5%" }}
+                onClick={() => {
+                  handleSort("success");
+                }}
+              >
+                <div className="flex">
+                  <p className=" hover:text-blue-400 cursor-pointer">
                     {" "}
-                    <img
-                      src={
-                        launch.links.flickr.original[0]
-                          ? launch.links.flickr.original[0]
-                          : launch.links.flickr.small[0]
-                          ? launch.links.flickr.small[0]
-                          : launch.links.patch.large
-                          ? launch.links.patch.large
-                          : "/images/spacex.jpeg"
-                      }
-                      alt="launch-image"
-                      style={{
-                        width: "100%",
-                        height: "100%",
-                        objectFit: "cover",
-                        borderRadius: "25px",
-                      }}
-                    />
-                  </Link>
-                </td>
-              </tr>
-            ))}
-        </tbody>
-      </table>
+                    Success
+                  </p>
+                  <img
+                    src={
+                      sort === "success"
+                        ? "/images/down-arrow.png"
+                        : "/images/up-arrow.png"
+                    }
+                    alt="sort-direction"
+                    className="w-4 h-4 ml-2"
+                  />
+                </div>
+              </th>
+              <th
+                style={{ width: "20%" }}
+                onClick={() => {
+                  handleSort("crew");
+                }}
+              >
+                <div className="flex">
+                  <p className=" hover:text-blue-400 cursor-pointer"> Crew</p>
+                  <img
+                    src={
+                      sort === "crew"
+                        ? "/images/down-arrow.png"
+                        : "/images/up-arrow.png"
+                    }
+                    alt="sort-direction"
+                    className="w-4 h-4 ml-2 cursor-pointer"
+                  />
+                </div>
+              </th>
+              <th style={{ width: "40%" }}>Details</th>
+              <th style={{ width: "10%", height: "0" }}>Image</th>
+            </tr>
+          </thead>
+          <tbody>
+            {upcoming
+              .filter((l) => {
+                if (
+                  (l.name === undefined || l.name === "") &&
+                  (l.details === undefined || l.details === "")
+                ) {
+                  return false;
+                } else if (
+                  (l.name &&
+                    l.name
+                      .toLowerCase()
+                      .includes(search.toLocaleLowerCase())) ||
+                  (l.details &&
+                    l.details
+                      .toLocaleLowerCase()
+                      .includes(search.toLocaleLowerCase()))
+                ) {
+                  return l;
+                } else {
+                  return false;
+                }
+              })
+              .sort(function (a, b) {
+                if (sort === null) {
+                  return a.flight_number - b.flight_number;
+                } else if (sort === "flight_number") {
+                  return b[sort] - a[sort];
+                } else if (sort === "crew") {
+                  return b[sort].length - a[sort].length;
+                } else if (sort === "date_utc") {
+                  return new Date(b[sort]) - new Date(a[sort]);
+                } else if (sort === "name") {
+                  let x = a.name.toLowerCase();
+                  let y = b.name.toLowerCase();
+                  if (x < y) {
+                    return -1;
+                  }
+                  if (x > y) {
+                    return 1;
+                  }
+                  return 0;
+                } else if (sort === "success") {
+                  let x = a.success;
+                  let y = b.success;
+                  if (x > y) {
+                    return -1;
+                  }
+                  if (x < y) {
+                    return 1;
+                  }
+                  return 0;
+                }
+              })
+              .map((launch) => (
+                <tr key={launch.id}>
+                  <td>{launch.flight_number}</td>
+                  <td>{launch.name}</td>
+                  <td>
+                    {new Date(launch.date_utc).getUTCDate() +
+                      "-" +
+                      new Date(launch.date_utc).getUTCMonth() +
+                      "-" +
+                      new Date(launch.date_utc).getUTCFullYear()}
+                  </td>
+                  <td
+                    className={
+                      launch.success === true
+                        ? "text-green-400"
+                        : "text-red-400"
+                    }
+                  >
+                    {launch.success === true ? "Successful" : "Failure"}
+                  </td>
+                  <td>
+                    {launch.crew.length === 0 ? (
+                      "0"
+                    ) : (
+                      <ul>
+                        {crewMembers
+                          .filter((c) => c.launch_id === launch.id)
+                          .map((m) => (
+                            <li key={m.member_id}>
+                              <p className="text-blue-400 text-sm italic mr-2">
+                                {m.role}:
+                              </p>
+                              <p> {m.name}</p>
+                            </li>
+                          ))}
+                      </ul>
+                    )}
+                  </td>
+                  <td>
+                    {launch.details ? launch.details : "No details available"}
+                  </td>
+                  <td style={{ height: "100px" }}>
+                    <Link to={`/${launch.id}`} state={{ launch: launch }}>
+                      {" "}
+                      <img
+                        src={
+                          launch.links.flickr.original[0]
+                            ? launch.links.flickr.original[0]
+                            : launch.links.flickr.small[0]
+                            ? launch.links.flickr.small[0]
+                            : launch.links.patch.large
+                            ? launch.links.patch.large
+                            : "/images/spacex.jpeg"
+                        }
+                        alt="launch-image"
+                        style={{
+                          width: "100%",
+                          height: "100%",
+                          objectFit: "cover",
+                          borderRadius: "25px",
+                        }}
+                      />
+                    </Link>
+                  </td>
+                </tr>
+              ))}
+          </tbody>
+        </table>
+      </>
     );
   }
   useEffect(() => {
@@ -303,7 +341,10 @@ function Future(props) {
       )}
 
       <br />
-      <Link className="italic text-sm hover:text-blue-400 flex-inline">
+      <Link
+        to="/all"
+        className="italic text-sm hover:text-blue-400 flex-inline"
+      >
         Search in all launches
       </Link>
       {upcoming.filter((l) => {
