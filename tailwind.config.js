@@ -4,18 +4,20 @@ module.exports = {
   theme: {
     extend: {},
     screens: {
-      xxl: { max: "1920" },
-      // => @media (max-width: 1920px) { ... }
-      xl: { max: "1280" },
-      // => @media (max-width: 1280px) { ... }
-      lg: { max: "850" },
-      // => @media (max-width: 850px) { ... }
-      md: { max: "540" },
-      // => @media (max-width: 540px) { ... }
-      sm: { max: "414" },
+      xxl: { max: "1280px" },
+      // => @media (max-width: 1535px) { ... }
+
+      xl: { max: "912px" },
+      // => @media (max-width: 1279px) { ... }
+
+      lg: { max: "820px" },
+      // => @media (max-width: 820px) { ... }
+
+      md: { max: "414px" },
       // => @media (max-width: 414px) { ... }
-      xs: { max: "393" },
-      // => @media (max-width: 393px) { ... }
+
+      sm: { max: "375px" },
+      // => @media (max-width: 375px) { ... }
     },
   },
   plugins: [],
