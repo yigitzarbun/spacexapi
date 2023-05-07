@@ -40,8 +40,11 @@ function Latest(props) {
     }
     resultJsx = (
       <div className="flex justify-between items-center">
-        <div className="bg-slate-950 p-8 mt-8 rounded-md shadow-md w-1/2">
-          <table className="text-left bg-slate-950 mt-8 w-full">
+        <div className="bg-slate-950 p-8 mt-4 rounded-md shadow-md w-1/2">
+          <h2 className="font-bold text-xl text-slate-400 mt-4">
+            Latest Launch
+          </h2>
+          <table className="text-left bg-slate-950 mt-4 w-full">
             <thead>
               <tr>
                 <th style={{ width: "10%" }}>#</th>
