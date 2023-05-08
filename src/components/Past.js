@@ -323,7 +323,7 @@ function Past(props) {
       <input
         type="text"
         placeholder="Search by name or detail in past launches.."
-        className="w-1/3 rounded-lg p-2 bg-slate-200 text-black border-2 hover:border-blue-500 md:w-full"
+        className="w-1/3 rounded-lg p-2 bg-slate-200 text-black border-2 hover:border-blue-500 xl:w-2/3 md:w-full"
         value={search}
         onChange={handleSearch}
       />
