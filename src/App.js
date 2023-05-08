@@ -18,7 +18,7 @@ function App() {
       .catch((err) => console.log(err));
   }, []);
   return (
-    <div className="p-8">
+    <div className="p-8 md:px-2">
       <Header />
       <main className="mt-12">
         <Routes>

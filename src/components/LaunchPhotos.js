@@ -22,12 +22,12 @@ function LaunchPhotos() {
   };
   return (
     <div>
-      <h2 className="text-center text-2xl font-bold">
+      <h2 className="text-center text-2xl font-bold md:text-center">
         {propsData && propsData.name}
       </h2>
       {propsData && propsData.links.flickr.original.length > 0 ? (
-        <div className="w-1/2 mx-auto">
-          <div className="flex justify-between mb-4">
+        <div className="w-1/2 mx-auto lg:w-2/3 md:w-full">
+          <div className="flex justify-between mb-4 md:my-8">
             <button
               onClick={handlePrevIndex}
               className="font-bold border-2 border-blue-400 rounded-md p-2 hover:bg-gradient-to-r from-sky-500 to-indigo-500 hover:border-slate-950"

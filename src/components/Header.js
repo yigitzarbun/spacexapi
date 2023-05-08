@@ -2,7 +2,7 @@ import React from "react";
 import { Link, NavLink } from "react-router-dom";
 function Header(props) {
   return (
-    <div className="flex justify-between items-center sm:flex-col">
+    <div className="flex justify-between items-center xl:flex-col xl:text-center">
       <NavLink to="/">
         <h1 className="text-blue-400 font-bold text-4xl italic hover:text-slate-300 ">
           SpaceX Launches

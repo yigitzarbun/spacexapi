@@ -79,7 +79,7 @@ function All(props) {
           </span>
           results
         </h2>
-        <table className="text-left bg-slate-900 mt-8">
+        <table className="text-left bg-slate-900 mt-8 table-responsive">
           <thead>
             <tr>
               <th
@@ -319,7 +319,7 @@ function All(props) {
     <div>
       <input
         type="text"
-        className="w-1/3 rounded-lg p-2 bg-slate-200 text-black border-2 hover:border-blue-500"
+        className="w-1/3 rounded-lg p-2 bg-slate-200 text-black border-2 hover:border-blue-500 md:w-full"
         placeholder="Search in all launches"
         onChange={handleSearch}
         value={search}
@@ -327,7 +327,7 @@ function All(props) {
       {search && (
         <button
           onClick={() => setSearch("")}
-          className="font-bold border-2 border-red-400 rounded-md ml-2 p-2 hover:bg-gradient-to-r from-red-500 to-purple-700 hover:border-slate-950"
+          className="font-bold border-2 border-red-400 rounded-md ml-2 p-2 hover:bg-gradient-to-r from-red-500 to-purple-700 hover:border-slate-950 md:w-full md:ml-0 md:my-2"
         >
           Clear
         </button>
