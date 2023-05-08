@@ -6,7 +6,15 @@ function Latest(props) {
   const { launchEndpoint, crew } = props;
   const [latest, setLatest] = useState([]);
   const [carouselIndex, setCarouselIndex] = useState(0);
-
+  const handleNextIndex = () => {
+    setCarouselIndex((carouselIndex + 1) % latest.links.flickr.original.length);
+  };
+  const handlePrevIndex = () => {
+    setCarouselIndex(
+      (carouselIndex + latest.links.flickr.original.length - 1) %
+        latest.links.flickr.original.length
+    );
+  };
   let resultJsx = "";
   let date = null;
   let year = null;
@@ -110,6 +118,20 @@ function Latest(props) {
         >
           {latest.links.flickr.original.length > 0 ? (
             <div>
+              <div className="flex justify-between mb-4 md:mb-8">
+                <button
+                  onClick={handlePrevIndex}
+                  className="font-bold border-2 border-blue-400 rounded-md p-2 hover:bg-gradient-to-r from-sky-500 to-indigo-500 hover:border-slate-950"
+                >
+                  Previous
+                </button>
+                <button
+                  onClick={handleNextIndex}
+                  className="font-bold border-2 border-blue-400 rounded-md p-2 hover:bg-gradient-to-r from-sky-500 to-indigo-500 hover:border-slate-950"
+                >
+                  Next
+                </button>
+              </div>
               <img src={latest.links.flickr.original[carouselIndex]} />
             </div>
           ) : latest.links.patch.large ? (
